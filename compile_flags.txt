@@ -1,0 +1,2 @@
+-I/opt/homebrew/Cellar/cjson/1.7.19/include
+-I/opt/homebrew/Cellar/cjson/1.7.19/include/cjson

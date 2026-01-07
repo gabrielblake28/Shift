@@ -1,0 +1,57 @@
+{
+  "befk": {
+    "driver": "zellij",
+    "root": "~/Sass/Finn",
+    "window": "new",
+    "layout": {
+      "tabs": [
+        {
+          "name": "Code",
+          "panes": [
+            "nvim ."
+          ]
+        },
+        {
+          "name": "Server",
+          "panes": [
+            "npm run dev",
+            "npm run db:start"
+          ]
+        }
+      ]
+    }
+  },
+  "frontend": {
+    "driver": "zellij",
+    "root": "~/work/tracekit/frontend",
+    "window": "current",
+    "layout": {
+      "tabs": [
+        {
+          "name": "Code",
+          "panes": [
+            "nvim ."
+          ]
+        },
+        {
+          "name": "Server",
+          "panes": [
+            "npm run dev"
+          ]
+        }
+      ]
+    }
+  },
+  "ios": {
+    "driver": "exec",
+    "root": "~/work/tracekit/ios",
+    "command": "xed ."
+  },
+  "work-mode": {
+    "driver": "composite",
+    "commands": [
+      "backend",
+      "frontend"
+    ]
+  }
+}
