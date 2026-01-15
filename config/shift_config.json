@@ -23,8 +23,8 @@
   },
   "frontend": {
     "driver": "zellij",
-    "root": "~/work/tracekit/frontend",
-    "window": "current",
+    "root": "~/Sass/khabib",
+    "window": "new",
     "layout": {
       "tabs": [
         {

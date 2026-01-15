@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "../include/config_parser.h"
+#include "../executor/zellij_executor.h"
 
 int main(int argc, char *argv[]) {
 
@@ -22,6 +23,13 @@ int main(int argc, char *argv[]) {
 
   // run the command
   printf("Running command: %s\n", command);
+
+  // execute based on driver
+  if (ws->driver && strcmp(ws->driver, "zellij") == 0) {
+    zellij_executor(ws, command);
+  } else {
+    printf("Unsupported driver: %s\n", ws->driver ? ws->driver : "(null)");
+  }
 
   return 0;
 }
