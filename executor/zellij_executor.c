@@ -20,19 +20,24 @@ void *zellij_executor(workspace *ws, char *command) {
     return NULL;
   }
 
-  // Write KDL layout
+  // Write KDL layout - simplified structure
   fprintf(kdl_file, "layout {\n");
+  
   if (ws->root) {
-    fprintf(kdl_file, "    cwd \"%s\";\n", ws->root);
+    const char *home = getenv("HOME");
+    if (home && strstr(ws->root, "~/") == ws->root) {
+      fprintf(kdl_file, "    cwd \"%s%s\";\n", home, ws->root + 1);
+    } else {
+      fprintf(kdl_file, "    cwd \"%s\";\n", ws->root);
+    }
   }
 
   if (ws->layout && ws->layout->tabs) {
+    // For simplicity, just put all panes in one tab with split
+    fprintf(kdl_file, "    tab name=\"Workspace\" {\n");
+    
     for (int i = 0; i < ws->layout->tab_count; i++) {
       tab *t = &ws->layout->tabs[i];
-      fprintf(kdl_file, "    tab name=\"%s\"%s {\n", 
-              t->name ? t->name : "Tab", 
-              i == 0 ? " focus=true" : "");
-      
       if (t->panes && t->pane_count > 0) {
         for (int j = 0; j < t->pane_count; j++) {
           // Parse command and args
@@ -40,33 +45,22 @@ void *zellij_executor(workspace *ws, char *command) {
           char *space = strchr(cmd, ' ');
           if (space) {
             *space = '\0';
-            // Find the end of the args string (remove trailing spaces)
             char *args = space + 1;
             while (*args && *args == ' ') args++;
-            
-            // Build args array by splitting on spaces
-            char *arg_start = args;
-            int arg_count = 0;
             fprintf(kdl_file, "        pane command=\"%s\"", cmd);
-            
             if (*args) {
               fprintf(kdl_file, " args=\"%s\"", args);
             }
           } else {
             fprintf(kdl_file, "        pane command=\"%s\"", cmd);
           }
-          
-          if (ws->root) {
-            fprintf(kdl_file, " cwd=\"%s\"", ws->root);
-          }
-          
           fprintf(kdl_file, ";\n");
           free(cmd);
         }
       }
-      
-      fprintf(kdl_file, "    }\n");
     }
+    
+    fprintf(kdl_file, "    }\n");
   }
 
   fprintf(kdl_file, "}\n");
@@ -75,15 +69,15 @@ void *zellij_executor(workspace *ws, char *command) {
   // Execute zellij with the layout
   char exec_cmd[512];
   if (strcmp(ws->window, "new") == 0) {
-    snprintf(exec_cmd, sizeof(exec_cmd), "zellij --layout \"%s\"", kdl_path);
+    snprintf(exec_cmd, sizeof(exec_cmd), "TERM=xterm-256color zellij --layout \"%s\"", kdl_path);
   } else {
-    snprintf(exec_cmd, sizeof(exec_cmd), "zellij options --default-layout \"%s\"", kdl_path);
+    snprintf(exec_cmd, sizeof(exec_cmd), "TERM=xterm-256color zellij options --default-layout \"%s\"", kdl_path);
   }
 
   system(exec_cmd);
   
   // Clean up
-  // unlink(kdl_path); // Commented for debugging
+  // unlink(kdl_path); // Keep for debugging
   
   return NULL;
 }

@@ -22,8 +22,8 @@
     }
   },
   "frontend": {
-    "driver": "zellij",
-    "root": "~/Sass/khabib",
+    "driver": "tmux",
+    "root": "/Users/gabrielblake/Saas/khabib",
     "window": "new",
     "layout": {
       "tabs": [

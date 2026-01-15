@@ -5,6 +5,7 @@
 
 #include "../include/config_parser.h"
 #include "../executor/zellij_executor.h"
+#include "../executor/tmux_executor.h"
 
 int main(int argc, char *argv[]) {
 
@@ -27,6 +28,8 @@ int main(int argc, char *argv[]) {
   // execute based on driver
   if (ws->driver && strcmp(ws->driver, "zellij") == 0) {
     zellij_executor(ws, command);
+  } else if (ws->driver && strcmp(ws->driver, "tmux") == 0) {
+    tmux_executor(ws, command);
   } else {
     printf("Unsupported driver: %s\n", ws->driver ? ws->driver : "(null)");
   }
