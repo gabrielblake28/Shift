@@ -22,8 +22,29 @@
     }
   },
   "frontend": {
-    "driver": "tmux",
+    "driver": "wezterm",
     "root": "/Users/gabrielblake/Saas/khabib",
+    "window": "new",
+    "layout": {
+      "tabs": [
+        {
+          "name": "Code",
+          "panes": [
+            "nvim ."
+          ]
+        },
+        {
+          "name": "Server",
+          "panes": [
+            "npm run dev"
+          ]
+        }
+      ]
+    }
+  },
+  "backend": {
+    "driver": "wezterm",
+    "root": "/Users/gabrielblake/Saas/Finn/",
     "window": "new",
     "layout": {
       "tabs": [
