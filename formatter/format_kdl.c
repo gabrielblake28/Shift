@@ -30,10 +30,41 @@ workspace *convert_to_KDL(cJSON *json, const char *command) {
     ws->window = strdup(window->valuestring);
   };
 
+  // Parse single command (for exec driver)
+  cJSON *command_item = cJSON_GetObjectItem(workspace_json, "command");
+  if (command_item != NULL && cJSON_IsString(command_item)) {
+    ws->command = strdup(command_item->valuestring);
+  }
+
+  // Parse commands array (for composite driver)
+  cJSON *commands = cJSON_GetObjectItem(workspace_json, "commands");
+  if (commands != NULL && cJSON_IsArray(commands)) {
+    ws->command_count = cJSON_GetArraySize(commands);
+    ws->commands = malloc(ws->command_count * sizeof(char *));
+    
+    for (int i = 0; i < ws->command_count; i++) {
+      cJSON *cmd = cJSON_GetArrayItem(commands, i);
+      if (cmd != NULL && cJSON_IsString(cmd)) {
+        ws->commands[i] = strdup(cmd->valuestring);
+      } else {
+        ws->commands[i] = NULL;
+      }
+    }
+  }
+
   printf("=== Parsed Workspace ===\n");
   printf("  driver: %s\n", ws->driver ? ws->driver : "(null)");
   printf("  root: %s\n", ws->root ? ws->root : "(null)");
   printf("  window: %s\n", ws->window ? ws->window : "(null)");
+  if (ws->command) {
+    printf("  command: %s\n", ws->command);
+  }
+  if (ws->commands && ws->command_count > 0) {
+    printf("  commands (%d):\n", ws->command_count);
+    for (int i = 0; i < ws->command_count; i++) {
+      printf("    - %s\n", ws->commands[i] ? ws->commands[i] : "(null)");
+    }
+  }
   printf("========================\n");
 
   // nested object values
