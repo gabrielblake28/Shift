@@ -9,13 +9,18 @@
 
 workspace *parse_config(const char *command) {
   // pull in the config file
-  FILE *config_file = fopen("config/shift_config.json", "r");
+  const char *config_path = getenv("SHIFT_CONFIG_PATH");
+  if (config_path == NULL) {
+    config_path = "config/shift_config.json";
+  }
+
+  FILE *config_file = fopen(config_path, "r");
   if (config_file == NULL) {
-    printf("Error opening config file\n");
+    printf("Error opening config file: %s\n", config_path);
     return NULL;
   }
 
-  printf("config file: %s\n", "config/shift_config.json");
+  printf("config file: %s\n", config_path);
   // read the whole file into memory
   fseek(config_file, 0, SEEK_END);
   long file_size = ftell(config_file);
