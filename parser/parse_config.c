@@ -7,11 +7,6 @@
 #include "../formatter/format_kdl.h"
 #include "../include/config_parser.h"
 
-// take in a string that will represent the command a user wants to run
-// and parse out the config file to find the correct object
-// what should it return?
-// what should it return?
-
 workspace *parse_config(const char *command) {
   // pull in the config file
   FILE *config_file = fopen("config/shift_config.json", "r");

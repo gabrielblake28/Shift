@@ -1,7 +1,7 @@
 {
-  "befk": {
-    "driver": "zellij",
-    "root": "~/Sass/Finn",
+  "frontend-iai": {
+    "driver": "wezterm",
+    "root": "/Users/gabrielblake/Transfer/InterviewAi",
     "window": "new",
     "layout": {
       "tabs": [
@@ -14,14 +14,13 @@
         {
           "name": "Server",
           "panes": [
-            "npm run dev",
-            "npm run db:start"
+            "npm run dev"
           ]
         }
       ]
     }
   },
-  "frontend": {
+  "frontend-sr": {
     "driver": "wezterm",
     "root": "/Users/gabrielblake/Saas/khabib",
     "window": "new",
@@ -42,7 +41,7 @@
       ]
     }
   },
-  "backend": {
+  "backend-sr": {
     "driver": "wezterm",
     "root": "/Users/gabrielblake/Saas/Finn/",
     "window": "new",
@@ -63,16 +62,17 @@
       ]
     }
   },
-  "ios": {
-    "driver": "exec",
-    "root": "~/work/tracekit/ios",
-    "command": "xed ."
-  },
-  "work-mode": {
+  "sr": {
     "driver": "composite",
     "commands": [
-      "backend",
-      "frontend"
+      "backend-sr",
+      "frontend-sr"
+    ]
+  },
+  "iai": {
+    "driver": "composite",
+    "commands": [
+      "frontend-iai"
     ]
   }
 }

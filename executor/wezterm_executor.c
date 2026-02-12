@@ -97,7 +97,7 @@ void *wezterm_executor(workspace *ws, char *command) {
         
         // Spawn creates a new tab by default when WEZTERM_PANE is set
         snprintf(spawn_cmd, sizeof(spawn_cmd),
-                 "\"%s\" cli spawn --cwd %s -- %s",
+                 "\"%s\" cli spawn --cwd \"%s\" -- %s",
                  wezterm_bin, expanded_root, t->panes[j]);
         
         printf("Executing: %s\n", spawn_cmd);
